@@ -5,8 +5,12 @@ socket.on("text-output", (value) => {
   editText(value);
 });
 
-function emitValue(value) {
-  socket.emit("text-input", value);
+function emitValue({ value, room }) {
+  socket.emit("text-input", { value, room });
 }
 
-export { emitValue };
+function selectDocument(value) {
+  socket.emit("document-selected", value);
+}
+
+export { emitValue, selectDocument };

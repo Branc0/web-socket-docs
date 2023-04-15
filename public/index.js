@@ -1,8 +1,13 @@
-import { emitValue } from "./socket-index.js";
+import { emitValue, selectDocument } from "./socket-index.js";
+
+const documentName = new URLSearchParams(window.location.search).get("nome");
+const documentTitle = document.getElementById("titulo-documento");
+documentTitle.textContent = documentName;
+selectDocument(documentName);
 
 const textField = document.getElementById("editor-texto");
 textField.addEventListener("keyup", () => {
-  emitValue(textField.value);
+  emitValue({ value: textField.value, room: documentName });
 });
 
 function editText(value) {
