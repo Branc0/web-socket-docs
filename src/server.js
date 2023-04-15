@@ -18,6 +18,4 @@ server.listen(port, () => `server listening to port ${port}`);
 
 const io = new Server(server);
 
-io.on("connection", () => {
-  console.log("a client is connected");
-});
+export default io;
