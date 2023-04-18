@@ -1,37 +1,25 @@
 import io from "./server.js";
-
-const fakeDB = [
-  {
-    room: "JavaScript",
-    history: "welcome to JS",
-  },
-  {
-    room: "Socket.io",
-    history: "welcome to Socket.io",
-  },
-  {
-    room: "Node",
-    history: "welcome to Node",
-  },
-];
+import { collection } from "./dbConnect.js";
 
 io.on("connection", (socket) => {
-  socket.on("document-selected", (room, callback) => {
+  socket.on("document-selected", async (room, callback) => {
     socket.join(room);
-    const history = getRoomHistory(room);
-    callback(history);
+    const document = await getRoomHistory(room);
+    callback(document.content);
   });
 
-  socket.on("text-input", ({ value, room }) => {
-    patchRoomHistory(room, value);
-    socket.to(room).emit("text-output", value);
+  socket.on("text-input", async ({ value, room }) => {
+    const res = await patchRoomHistory(room, value);
+    if (res.modifiedCount) {
+      socket.to(room).emit("text-output", value);
+    }
   });
 });
 
 function getRoomHistory(room) {
-  return fakeDB.find((data) => data.room === room).history;
+  return collection.findOne({ title: room });
 }
 
-function patchRoomHistory(room, value) {
-  fakeDB.find((data) => data.room === room).history = value;
+function patchRoomHistory(title, content) {
+  return collection.updateOne({ title }, { $set: { content } });
 }
