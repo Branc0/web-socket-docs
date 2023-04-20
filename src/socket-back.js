@@ -19,6 +19,11 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("delete-document", async (document, callback) => {
+    await deleteDocument(document);
+    callback();
+  });
+
   socket.on("document-selected", async (room, callback) => {
     socket.join(room);
     const document = await getRoomHistory(room);
@@ -50,4 +55,8 @@ function createDocument(documentName) {
     title: documentName,
     content: "",
   });
+}
+
+function deleteDocument(documentName) {
+  return collection.deleteOne({ title: documentName });
 }
