@@ -2,6 +2,12 @@ import io from "./server.js";
 import { collection } from "./dbConnect.js";
 
 io.on("connection", (socket) => {
+  socket.on("list-documents", async (callBack) => {
+    const documents = await getDocumentList();
+    console.log(documents);
+    callBack(documents);
+  });
+
   socket.on("document-selected", async (room, callback) => {
     socket.join(room);
     const document = await getRoomHistory(room);
@@ -22,4 +28,8 @@ function getRoomHistory(room) {
 
 function patchRoomHistory(title, content) {
   return collection.updateOne({ title }, { $set: { content } });
+}
+
+function getDocumentList() {
+  return collection.find().toArray();
 }

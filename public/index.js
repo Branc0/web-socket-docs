@@ -1,17 +1,19 @@
-import { emitValue, selectDocument } from "./socket-index.js";
+import { getDocuments } from "./socket-index.js";
 
-const documentName = new URLSearchParams(window.location.search).get("nome");
-const documentTitle = document.getElementById("titulo-documento");
-documentTitle.textContent = documentName;
-selectDocument(documentName);
+const documentList = document.getElementById("doc-list");
+getDocuments();
 
-const textField = document.getElementById("editor-texto");
-textField.addEventListener("keyup", () => {
-  emitValue({ value: textField.value, room: documentName });
-});
-
-function editText(value) {
-  textField.value = value;
+function populateDocList(documents) {
+  documents.forEach((document) => {
+    documentList.innerHTML += `
+       <a
+       href="documento.html?nome=${document.title}"
+       class="list-group-item list-group-item-action"
+       >
+       ${document.title}
+       </a>
+       `;
+  });
 }
 
-export { editText };
+export { populateDocList };
