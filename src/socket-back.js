@@ -4,14 +4,18 @@ import { collection } from "./dbConnect.js";
 io.on("connection", (socket) => {
   socket.on("list-documents", async (callBack) => {
     const documents = await getDocumentList();
-    console.log(documents);
     callBack(documents);
   });
 
   socket.on("add-document", async (documentName) => {
-    const res = await createDocument(documentName);
-    if (res.acknowledged) {
-      io.emit("document-added", documentName);
+    const documentExist = (await getRoomHistory(documentName)) !== null;
+    if (!documentExist) {
+      const res = await createDocument(documentName);
+      if (res.acknowledged) {
+        io.emit("document-added", documentName);
+      }
+    } else {
+      socket.emit("invalid-document");
     }
   });
 

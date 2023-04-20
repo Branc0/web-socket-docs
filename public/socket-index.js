@@ -5,6 +5,10 @@ socket.on("document-added", (documentName) => {
   insertDocument(documentName);
 });
 
+socket.on("invalid-document", () => {
+  alert("Invalid document");
+});
+
 function getDocuments() {
   socket.emit("list-documents", (documents) => populateDocList(documents));
 }
