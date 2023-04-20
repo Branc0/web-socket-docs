@@ -8,6 +8,13 @@ io.on("connection", (socket) => {
     callBack(documents);
   });
 
+  socket.on("add-document", async (documentName) => {
+    const res = await createDocument(documentName);
+    if (res.acknowledged) {
+      io.emit("document-added", documentName);
+    }
+  });
+
   socket.on("document-selected", async (room, callback) => {
     socket.join(room);
     const document = await getRoomHistory(room);
@@ -32,4 +39,11 @@ function patchRoomHistory(title, content) {
 
 function getDocumentList() {
   return collection.find().toArray();
+}
+
+function createDocument(documentName) {
+  return collection.insertOne({
+    title: documentName,
+    content: "",
+  });
 }
