@@ -1,4 +1,4 @@
-import { populateDocList, insertDocument } from "./index.js";
+import { insertDocument, populateDocList, removeListItem } from "./index.js";
 const socket = io();
 
 socket.on("document-added", (documentName) => {
@@ -7,6 +7,10 @@ socket.on("document-added", (documentName) => {
 
 socket.on("invalid-document", () => {
   alert("Invalid document");
+});
+
+socket.on("document-deleted", (docName) => {
+  removeListItem(docName);
 });
 
 function getDocuments() {

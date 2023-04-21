@@ -19,6 +19,7 @@ function populateDocList(documents) {
   documents.forEach((document) => {
     documentList.innerHTML += `
        <a
+       id="doc-${document.title}"
        href="documento.html?nome=${document.title}"
        class="list-group-item list-group-item-action"
        >
@@ -39,4 +40,9 @@ function insertDocument(documentName) {
     `;
 }
 
-export { populateDocList, insertDocument };
+function removeListItem(documentName) {
+  const deletedItem = document.getElementById("doc-" + documentName);
+  documentList.removeChild(deletedItem);
+}
+
+export { populateDocList, insertDocument, removeListItem };
