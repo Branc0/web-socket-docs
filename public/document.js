@@ -29,8 +29,15 @@ function documentDeleted() {
   window.location.href = "index.html";
 }
 
+function documentNoLongerExist(document) {
+  if (documentName === document) {
+    alert("this document was deleted");
+    documentDeleted();
+  }
+}
+
 function editText(value) {
   textField.value = value;
 }
 
-export { editText, documentDeleted };
+export { editText, documentDeleted, documentNoLongerExist };

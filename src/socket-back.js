@@ -22,6 +22,7 @@ io.on("connection", (socket) => {
   socket.on("delete-document", async (document, callback) => {
     await deleteDocument(document);
     callback();
+    socket.broadcast.emit("document-deleted", document);
   });
 
   socket.on("document-selected", async (room, callback) => {

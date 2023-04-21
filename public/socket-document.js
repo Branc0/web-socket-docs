@@ -1,4 +1,9 @@
-import { editText, documentDeleted } from "./document.js";
+import {
+  editText,
+  documentDeleted,
+  documentNoLongerExist,
+} from "./document.js";
+
 const socket = io();
 
 function selectDocument(value) {
@@ -19,6 +24,10 @@ function deleteDocument(documentName) {
 
 socket.on("text-output", (text) => {
   editText(text);
+});
+
+socket.on("document-deleted", (documentName) => {
+  documentNoLongerExist(documentName);
 });
 
 export { emitValue, selectDocument, deleteDocument };
