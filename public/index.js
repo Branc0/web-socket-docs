@@ -20,7 +20,7 @@ function populateDocList(documents) {
     documentList.innerHTML += `
        <a
        id="doc-${document.title}"
-       href="documento.html?nome=${document.title}"
+       href="document?nome=${document.title}"
        class="list-group-item list-group-item-action"
        >
        ${document.title}
@@ -32,7 +32,7 @@ function populateDocList(documents) {
 function insertDocument(documentName) {
   documentList.innerHTML += `
     <a
-    href="documento.html?nome=${documentName}"
+    href="document?nome=${documentName}"
     class="list-group-item list-group-item-action"
     >
     ${documentName}
