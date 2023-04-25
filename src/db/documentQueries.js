@@ -1,26 +1,26 @@
-import { collection } from "./dbConnect.js";
+import { documentCollection } from "./dbConnect.js";
 
 function getRoomHistory(room) {
-  return collection.findOne({ title: room });
+  return documentCollection.findOne({ title: room });
 }
 
 function patchRoomHistory(title, content) {
-  return collection.updateOne({ title }, { $set: { content } });
+  return documentCollection.updateOne({ title }, { $set: { content } });
 }
 
 function getDocumentList() {
-  return collection.find().toArray();
+  return documentCollection.find().toArray();
 }
 
 function createDocument(documentName) {
-  return collection.insertOne({
+  return documentCollection.insertOne({
     title: documentName,
     content: "",
   });
 }
 
 function deleteDocument(documentName) {
-  return collection.deleteOne({ title: documentName });
+  return documentCollection.deleteOne({ title: documentName });
 }
 
 export {
