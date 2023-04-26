@@ -17,6 +17,10 @@ const userHandler = (io, socket) => {
       }
     }
   });
+
+  socket.on("user:auth", async (credentials) => {
+    console.log(credentials);
+  });
 };
 
 export default userHandler;
