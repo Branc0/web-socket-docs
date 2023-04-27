@@ -1,3 +1,5 @@
+import "dotenv/config.js";
+
 import io from "./server.js";
 import documentHandler from "./handlers/documentHandler.js";
 import userHandler from "./handlers/userHandler.js";

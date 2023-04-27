@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 
-const password = "123";
+const password = process.env.DB_PASSWORD;
 
 const client = new MongoClient(
   `mongodb+srv://rrochadeazevedo:${password}@cluster0.lxserh9.mongodb.net/?retryWrites=true&w=majority`
