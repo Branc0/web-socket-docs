@@ -1,3 +1,5 @@
+import { setCookie } from "../utils/cookieService.js";
+
 const socket = io();
 
 function authUser(credentials) {
@@ -5,8 +7,8 @@ function authUser(credentials) {
 }
 
 socket.on("user:login-success", (token) => {
-  console.log(token);
-  //   window.location.href = "index.html";
+  setCookie("user", token);
+  window.location.href = "/";
 });
 socket.on("user:login-error", (message) => alert(message));
 

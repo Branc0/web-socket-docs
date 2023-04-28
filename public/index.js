@@ -1,10 +1,14 @@
 import { getDocuments, addDocument } from "./socket-index.js";
+import { getCookie, removeCookie } from "./utils/cookieService.js";
+
+const tokenJwt = getCookie("tokenJwt");
 
 const documentList = document.getElementById("doc-list");
 getDocuments();
 
 const form = document.getElementById("form-adiciona-documento");
 const input = document.getElementById("input");
+const logoutButton = document.getElementById("button-logout");
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -13,6 +17,11 @@ form.addEventListener("submit", (event) => {
     addDocument(newDocumentName);
     input.value = "";
   }
+});
+
+logoutButton.addEventListener("click", () => {
+  removeCookie(tokenJwt);
+  window.location.href = "/login";
 });
 
 function populateDocList(documents) {
