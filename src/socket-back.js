@@ -3,10 +3,13 @@ import "dotenv/config.js";
 import io from "./server.js";
 import documentHandler from "./handlers/documentHandler.js";
 import userHandler from "./handlers/userHandler.js";
+import authGuard from "./middlewares/authGuard.js";
 
-const onConnection = (socket) => {
-  documentHandler(io, socket);
+io.of("/").on("connection", (socket) => {
   userHandler(io, socket);
-};
+});
 
-io.on("connection", onConnection);
+const nspDocument = io.of("/documents");
+nspDocument.use(authGuard).on("connection", (socket) => {
+  documentHandler(nspDocument, socket);
+});

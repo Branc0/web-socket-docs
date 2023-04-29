@@ -1,5 +1,11 @@
 import { insertDocument, populateDocList, removeListItem } from "./index.js";
-const socket = io();
+import { getCookie } from "./utils/cookieService.js";
+
+const socket = io("/documents", {
+  auth: {
+    token: getCookie("user"),
+  },
+});
 
 socket.on("document-added", (documentName) => {
   insertDocument(documentName);
@@ -11,6 +17,11 @@ socket.on("invalid-document", () => {
 
 socket.on("document-deleted", (docName) => {
   removeListItem(docName);
+});
+
+socket.on("connect_error", (error) => {
+  alert(error);
+  window.location.href = "/login";
 });
 
 function getDocuments() {

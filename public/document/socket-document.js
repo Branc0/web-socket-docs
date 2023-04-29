@@ -1,10 +1,15 @@
+import { getCookie } from "../utils/cookieService.js";
 import {
   editText,
   documentDeleted,
   documentNoLongerExist,
 } from "./document.js";
 
-const socket = io();
+const socket = io("/documents", {
+  auth: {
+    token: getCookie("user"),
+  },
+});
 
 function selectDocument(value) {
   socket.emit("document-selected", value, (value) => {
